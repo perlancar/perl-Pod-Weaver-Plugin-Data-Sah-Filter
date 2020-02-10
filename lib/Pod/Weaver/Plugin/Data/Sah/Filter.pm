@@ -13,7 +13,7 @@ with 'Pod::Weaver::Role::Section';
 use Data::Dmp;
 use File::Temp;
 
-sub _process_coerce_module {
+sub _process_filter_module {
     no strict 'refs';
 
     my ($self, $document, $input, $package) = @_;
@@ -35,7 +35,7 @@ sub _process_coerce_module {
 
         {
             no strict 'refs';
-            $meta = &{"$package\::meta"}->();
+            $meta = $package->meta;
         }
         $package =~ /\AData::Sah::Filter::\w+::(\w+)::(\w+)\z/
             or $self->log_fatal("Invalid module name $package, please use Data::Sah::Filter::<LANG>::<CATEGORY>::<DESCRIPTION>");
@@ -98,7 +98,7 @@ sub _process_filterbundle_module {
         my @filter_mods = $self->_list_my_filter_modules($input);
         push @pod, "This distribution contains the following L<Sah> filter rule modules:\n\n";
         push @pod, "=over\n\n";
-        push @pod, "=item * L<$_>\n\n" for @coerce_mods;
+        push @pod, "=item * L<$_>\n\n" for @filter_mods;
         push @pod, "=back\n\n";
 
         $self->add_text_to_section(
