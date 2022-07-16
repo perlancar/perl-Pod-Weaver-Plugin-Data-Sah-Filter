@@ -32,7 +32,6 @@ sub _process_filter_module {
         $package_pm .= ".pm";
 
         # force reload
-        (my $package_pm = "$package.pm") =~ s!::!/!g;
         delete $INC{$package_pm};
 
         { no warnings 'redefine'; require $package_pm; }
