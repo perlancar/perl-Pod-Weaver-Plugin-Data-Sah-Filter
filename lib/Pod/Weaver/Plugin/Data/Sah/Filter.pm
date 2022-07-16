@@ -22,10 +22,6 @@ sub _process_filter_module {
 
     my $filename = $input->{filename};
 
-    # force reload
-    (my $package_pm = "$package.pm") =~ s!::!/!g;
-    delete $INC{$package_pm};
-
     require Require::Hook::Source::DzilBuild;
     local @INC = (Require::Hook::Source::DzilBuild->new(zilla => $input->{zilla}, debug=>1), @INC);
 
@@ -34,7 +30,12 @@ sub _process_filter_module {
         my $package_pm = $package;
         $package_pm =~ s!::!/!g;
         $package_pm .= ".pm";
-        require $package_pm;
+
+        # force reload
+        (my $package_pm = "$package.pm") =~ s!::!/!g;
+        delete $INC{$package_pm};
+
+        { no warnings 'redefine'; require $package_pm; }
 
         {
             no strict 'refs'; ## no critic: TestingAndDebugging::ProhibitNoStrict
