@@ -14,7 +14,7 @@ use File::Temp;
 # VERSION
 
 sub _process_filter_module {
-    no strict 'refs';
+    no strict 'refs'; ## no critic: TestingAndDebugging::ProhibitNoStrict
 
     my ($self, $document, $input, $package) = @_;
 
@@ -34,7 +34,7 @@ sub _process_filter_module {
         require $package_pm;
 
         {
-            no strict 'refs';
+            no strict 'refs'; ## no critic: TestingAndDebugging::ProhibitNoStrict
             $meta = $package->meta;
         }
         $package =~ /\AData::Sah::Filter::\w+::(\w+)::(\w+)\z/
@@ -137,7 +137,7 @@ sub _list_my_filter_modules {
 }
 
 sub _process_filterbundle_module {
-    no strict 'refs';
+    no strict 'refs'; ## no critic: TestingAndDebugging::ProhibitNoStrict
 
     my ($self, $document, $input, $package) = @_;
 
