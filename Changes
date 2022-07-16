@@ -1,3 +1,9 @@
+0.004   2022-07-16  Released-By: PERLANCAR; Urgency: medium
+
+        - [bugfix] Use Require::Hook::Source::DzilBuild and force reload
+          when loading filer module to get up-to-date metadata.
+
+
 0.003   2022-07-16  Released-By: PERLANCAR; Urgency: medium
 
         - Show filter arguments in generated examples, if any.
