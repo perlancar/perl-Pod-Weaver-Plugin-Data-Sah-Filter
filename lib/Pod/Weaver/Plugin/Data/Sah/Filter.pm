@@ -84,7 +84,7 @@ sub _process_filter_module {
                 my $filter_code = Data::Sah::Filter::gen_filter(filter_names=>[$filter_rule]);
                 my ($actual_errmsg, $actual_filtered_value);
                 if ($meta->{might_fail}) {
-                    ($actual_errmsg, $actual_filtered_value) = $filter_code->($eg->{value});
+                    ($actual_errmsg, $actual_filtered_value) = @{ $filter_code->($eg->{value}) };
                 } else {
                     $actual_filtered_value = $filter_code->($eg->{value});
                     $actual_errmsg = undef;
