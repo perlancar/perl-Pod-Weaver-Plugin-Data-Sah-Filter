@@ -22,9 +22,12 @@ sub _process_filter_module {
 
     my $filename = $input->{filename};
 
-    # XXX handle dynamically generated module (if there is such thing in the
-    # future)
-    local @INC = ("lib", @INC);
+    # force reload
+    (my $package_pm = "$package.pm") =~ s!::!/!g;
+    delete $INC{$package_pm};
+
+    require Require::Hook::Source::DzilBuild;
+    local @INC = (Require::Hook::Source::DzilBuild->new(zilla => $input->{zilla}, debug=>1), @INC);
 
     my ($rule_cat, $rule_desc, $meta);
     {
@@ -36,6 +39,7 @@ sub _process_filter_module {
         {
             no strict 'refs'; ## no critic: TestingAndDebugging::ProhibitNoStrict
             $meta = $package->meta;
+            #use DD; print "VERSION: "; dd ${"$package\::VERSION"}; print "meta: "; dd $meta;
         }
         $package =~ /\AData::Sah::Filter::\w+::(\w+)::(\w+)\z/
             or $self->log_fatal("Invalid module name $package, please use Data::Sah::Filter::<LANG>::<CATEGORY>::<DESCRIPTION>");
