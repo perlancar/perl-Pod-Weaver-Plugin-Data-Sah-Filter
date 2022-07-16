@@ -87,7 +87,8 @@ sub _process_filter_module {
                 }
                 my $correct_filtered_value = exists($eg->{filtered_value}) ?
                     $eg->{filtered_value} : $eg->{value};
-                push @pod, " ", dmp($eg->{value}), " # ",
+                push @pod, " ", dmp($eg->{value}), " #",
+                    ($eg->{filter_args} ? " filtered with args ".dmp($eg->{filter_args}).", " : " "),
                     ($actual_errmsg ? "INVALID ($actual_errmsg)" : "valid"), ", ",
                     (Data::Cmp::cmp_data($eg->{value}, $actual_filtered_value) == 0 ? "unchanged" : "becomes ".dmp($actual_filtered_value)), "\n";
             }
