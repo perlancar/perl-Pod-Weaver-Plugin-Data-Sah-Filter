@@ -82,14 +82,12 @@ sub _process_filter_module {
             push @pod, "=head2 Sample data and filtering results\n\n";
             for my $eg (@{ $meta->{examples} }) {
                 my $filter_rule = ["$rule_cat\::$rule_desc", $eg->{filter_args} // {}];
-                my $filter_code = Data::Sah::Filter::gen_filter(filter_names=>[$filter_rule]);
+                my $filter_code = Data::Sah::Filter::gen_filter(
+                    filter_names=>[$filter_rule],
+                    return_type => 'str_errmsg+val',
+                );
                 my ($actual_errmsg, $actual_filtered_value);
-                if ($meta->{might_fail}) {
-                    ($actual_errmsg, $actual_filtered_value) = @{ $filter_code->($eg->{value}) };
-                } else {
-                    $actual_filtered_value = $filter_code->($eg->{value});
-                    $actual_errmsg = undef;
-                }
+                ($actual_errmsg, $actual_filtered_value) = @{ $filter_code->($eg->{value}) };
                 my $correct_filtered_value = exists($eg->{filtered_value}) ?
                     $eg->{filtered_value} : $eg->{value};
                 push @pod, " ", dmp($eg->{value}), " #",
