@@ -92,7 +92,9 @@ sub _process_filter_module {
                 push @pod, " ", dmp($eg->{value}), " #",
                     ($eg->{filter_args} ? " filtered with args ".dmp($eg->{filter_args}).", " : " "),
                     ($actual_errmsg ? "INVALID ($actual_errmsg)" : "valid"), ", ",
-                    (Data::Cmp::cmp_data($eg->{value}, $actual_filtered_value) == 0 ? "unchanged" : "becomes ".dmp($actual_filtered_value)), "\n";
+                    (Data::Cmp::cmp_data($eg->{value}, $actual_filtered_value) == 0 ? "unchanged" : "becomes ".dmp($actual_filtered_value)),
+                    (defined $eg->{summary} ? " ($eg->{summary})" : ""),
+                    "\n";
             }
             push @pod, "\n";
         }
