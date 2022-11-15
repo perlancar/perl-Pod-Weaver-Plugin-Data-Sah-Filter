@@ -87,6 +87,7 @@ sub _process_filter_module {
                 );
                 my ($actual_errmsg, $actual_filtered_value);
                 ($actual_errmsg, $actual_filtered_value) = @{ $filter_code->($eg->{value}) };
+                $actual_errmsg =~ s/\R/ /g;
                 my $correct_filtered_value = exists($eg->{filtered_value}) ?
                     $eg->{filtered_value} : $eg->{value};
                 push @pod, " ", dmp($eg->{value}), " #",
