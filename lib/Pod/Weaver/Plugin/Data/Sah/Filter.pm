@@ -41,7 +41,7 @@ sub _process_filter_module {
             $meta = $package->meta;
             #use DD; print "VERSION: "; dd ${"$package\::VERSION"}; print "meta: "; dd $meta;
         }
-        $package =~ /\AData::Sah::Filter::\w+::(\w+)::(\w+)\z/
+        $package =~ /\AData::Sah::Filter::\w+::((?:\w+)(?:::\w+)*)+::(\w+)\z/
             or $self->log_fatal("Invalid module name $package, please use Data::Sah::Filter::<LANG>::<CATEGORY>::<DESCRIPTION>");
         $rule_cat  = $1;
         $rule_desc = $2;
